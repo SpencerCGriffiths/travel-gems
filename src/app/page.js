@@ -1,22 +1,21 @@
-"use client";
-import { useEffect, useState } from 'react';
 import styles from './page.module.css'
 import run from '@/utils/db';
 
-export default function Home() {
-  const [locationData, setLocationData] = useState([])
+export default async function Home() {
+  let documents;
 
-  useEffect(() => {
-    run().then((res) => {
-      setLocationData(res)
-    })
-  }, [])
-
-  console.log(locationData)
+  run()
+  .then((res) => {
+    documents = res;
+    console.log(documents)
+  })
 
   return (
     <main className={styles.main}>
       <h1>Home Page!</h1>
+      {documents ? documents.map((doc) => {
+        return <p>{doc.place_name}</p>
+      }) : null}
     </main>
   )
 }
